@@ -15,14 +15,13 @@ class LinkedList(var head: Option[Node]) {
   def getLastElement(): Option[Node] = {
     if (!head.isDefined) return None
 
-    var curr = head
-
-    while (curr.isDefined) {
-      if (curr.get.next.isEmpty) return curr
-      curr = curr.get.next
+    @tailrec
+    def getLastElementRecursive(node: Option[Node]): Option[Node] = {
+      if (node.get.next.isEmpty) return node
+      getLastElementRecursive(node.get.next)
     }
 
-    None
+    getLastElementRecursive(head)
   }
 
   def addToEnd(element: String): Unit = {
@@ -45,23 +44,24 @@ class LinkedList(var head: Option[Node]) {
   }
 
   def getSize(): Int = {
-    var tempNext = head
-    var size: Int = 0
-    while (tempNext.isDefined) {
-      size += 1
-      tempNext = tempNext.get.next
+    def getSizeRecursive(node: Option[Node]): Int = {
+      if (node.isEmpty) 0
+      else 1 + getSizeRecursive(node.get.next)
     }
-    size
+    getSizeRecursive(head)
   }
 
   def findElement(s:String): Option[Node] = {
-    var tempNext = head
-    while (tempNext.isDefined) {
-      if (tempNext.get.item == s) return tempNext
-      tempNext = tempNext.get.next
+    @tailrec
+    def findElementRecursive(node: Option[Node], s: String): Option[Node] = {
+      if (node.isDefined) {
+        if (node.get.item == s) node
+        else findElementRecursive(node.get.next, s)
+      }
+      else Option.empty
     }
 
-    Option.empty
+    findElementRecursive(head, s)
   }
 
   def swapElements(e1: String, e2: String): Unit = {
