@@ -26,6 +26,8 @@ import org.junit.jupiter.api.Test
       assertEquals(1, n.getSize(), "list of 1 getSize() MUST return 1")
       n.addToStart("b")
       assertEquals(2, n.getSize(), "list of 2 getSize() MUST return 2")
+      n.removeElement("b")
+      assertEquals(1, n.getSize(), "list of 1 getSize() MUST return 1")
     }
 
     @DisplayName("The toString method should be implemented")
